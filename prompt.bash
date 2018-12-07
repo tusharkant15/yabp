@@ -8,7 +8,7 @@ build_prompt () {
     RESET=\\[$(tput sgr0)\\]
     TRIANGLE=$'\uE0B0'
 
-    if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]
+    if [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]
     then
         HOSTFG=\\[$(tput setaf 199)\\]
         HOSTBG=\\[$(tput setab 199)\\]
@@ -19,7 +19,7 @@ build_prompt () {
         HOST=""
     fi
 
-    if [ "${PWD##/home/}" != "${PWD}" ]
+    if [[ "${PWD##/home/}" != "${PWD}" ]]
     then
         PATHFG=\\[$(tput setaf 24)\\]
         PATHBG=\\[$(tput setab 24)\\]
@@ -28,7 +28,7 @@ build_prompt () {
         PATHBG=\\[$(tput setab 52)\\]
     fi
 
-    if [ $RETVAL -eq 0 ]
+    if [[ $RETVAL -eq 0 ]]
     then
         ICON=$'\u2713'
         STATUS="${GREENFG}${ICON}${WHITEFG}"
@@ -49,9 +49,9 @@ build_prompt () {
 }
 
 check_focus () {
-    if [ $(xdotool getwindowfocus) -ne $WINDOWID ]
+    if [[ $(xdotool getwindowfocus) -ne $WINDOWID ]]
     then
-        if [ $RETVAL -eq 0 ]
+        if [[ $RETVAL -eq 0 ]]
         then
             notify-send -i utilities-terminal "Terminal" "Command Completed Successfuly"
         else
@@ -63,7 +63,10 @@ check_focus () {
 bootstrap () {
     RETVAL=$?
     build_prompt
-    check_focus
+    if [[ ! -z "$WINDOWID" ]]
+    then
+        check_focus
+    fi 
 }
 
 PROMPT_COMMAND=bootstrap
