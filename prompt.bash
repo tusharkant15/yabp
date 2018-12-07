@@ -12,9 +12,11 @@ build_prompt () {
     then
         HOSTFG=\\[$(tput setaf 199)\\]
         HOSTBG=\\[$(tput setab 199)\\]
+        HOST="${HOSTBG} \h ${PATHBG}${HOSTFG}${TRIANGLE}${WHITEFG}"
     else
         HOSTFG=\\[$(tput setaf 239)\\]
         HOSTBG=\\[$(tput setab 239)\\]
+        HOST=""
     fi
 
     if [ "${PWD##/home/}" != "${PWD}" ]
@@ -35,7 +37,7 @@ build_prompt () {
         STATUS="${ICON}"
     fi
 
-    PS1="${BOLD}${HOSTBG}${STATUS} \h ${PATHBG}${HOSTFG}${TRIANGLE}${WHITEFG}${PATHBG} \w ${PATHFG}"
+    PS1="${BOLD}${HOST}${PATHBG} \w ${PATHFG}"
     GIT_BRANCH=$(__git_ps1)
     if [[ $GIT_BRANCH == "" ]]
     then
